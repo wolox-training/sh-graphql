@@ -3,15 +3,17 @@ const { makeExecutableSchema } = require('graphql-tools'),
   types = require('./types'),
   inputs = require('./inputs'),
   users = require('./users'),
+  albums = require('./albums'),
   healthCheck = require('./healthCheck');
 
-const typeDefs = [types, inputs, ...users.schemas, ...healthCheck.schemas];
+const typeDefs = [types, inputs, ...users.schemas, ...albums.schemas, ...healthCheck.schemas];
 
 const schema = makeExecutableSchema({
   typeDefs,
   resolvers: {
     Query: {
       ...users.queries,
+      ...albums.queries,
       ...healthCheck.queries
     },
     Mutation: {
@@ -19,6 +21,9 @@ const schema = makeExecutableSchema({
     },
     Subscription: {
       ...users.subscriptions
+    },
+    Album: {
+      ...albums.photosResolver
     }
   }
 });
