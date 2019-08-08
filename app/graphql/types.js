@@ -17,4 +17,17 @@ module.exports = gql`
     refreshToken: String!
     expiresIn: Int!
   }
+  type Album {
+    id: ID!
+    title: String!
+    artist: String!
+    photos: [Photo]!
+  }
+  type Photo {
+    albumId: ID!
+    id: ID!
+    title: String!
+    url: String!
+    thumbnailUrl: String!
+  }
 `;
