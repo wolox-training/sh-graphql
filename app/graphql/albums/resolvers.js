@@ -14,9 +14,9 @@ exports.getPhotos = (parent, args) => {
   return albumService.getPhotosBy({ albumId: id });
 };
 
-exports.getAlbums = (parent, { offset, limit, orderBy }) => {
+exports.getAlbums = (parent, { offset, limit, orderBy, filter }) => {
   logger.info(`Retrieving albums list with offset: ${offset} limit: ${limit} orderBy: ${orderBy}`);
-  return albumService.getAlbums().then(albums => formatAlbum({ albums, offset, limit, orderBy }));
+  return albumService.getAlbums().then(albums => formatAlbum({ albums, offset, limit, orderBy, filter }));
 };
 
 exports.photosResolver = {
