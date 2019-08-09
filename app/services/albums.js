@@ -1,7 +1,7 @@
 const request = require('request-promise');
 
 const { urlAlbumApi, albumsEndpoint, photosEndpoint } = require('../../config').common.resources;
-const { ALBUM_API_FAILED } = require('../constants');
+const { ALBUM_API_FAILED, LOG_ALBUM_API_ERROR } = require('../constants');
 const errors = require('../errors');
 const logger = require('../logger');
 
@@ -11,8 +11,8 @@ exports.getAlbum = qs => {
     uri: `${urlAlbumApi}${albumsEndpoint}${qs}`,
     json: true
   };
-  return request(options).catch(() => {
-    logger.error('Error trying to consume album API');
+  return request(options).catch(error => {
+    logger.error(`${LOG_ALBUM_API_ERROR}${JSON.stringify(error)}`);
     throw errors.albumError(ALBUM_API_FAILED);
   });
 };
@@ -23,8 +23,8 @@ exports.getAlbums = () => {
     uri: `${urlAlbumApi}${albumsEndpoint}`,
     json: true
   };
-  return request(options).catch(() => {
-    logger.error('Error trying to consume album API');
+  return request(options).catch(error => {
+    logger.error(`${LOG_ALBUM_API_ERROR}${JSON.stringify(error)}`);
     throw errors.albumError(ALBUM_API_FAILED);
   });
 };
@@ -36,8 +36,8 @@ exports.getPhotosBy = qs => {
     qs,
     json: true
   };
-  return request(options).catch(() => {
-    logger.error('Error trying to consume album API');
+  return request(options).catch(error => {
+    logger.error(`${LOG_ALBUM_API_ERROR}${JSON.stringify(error)}`);
     throw errors.albumError(ALBUM_API_FAILED);
   });
 };
