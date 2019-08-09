@@ -5,10 +5,22 @@ const { ALBUM_API_FAILED } = require('../constants');
 const errors = require('../errors');
 const logger = require('../logger');
 
-exports.getAlbums = qs => {
+exports.getAlbum = qs => {
   const options = {
     method: 'GET',
     uri: `${urlAlbumApi}${albumsEndpoint}${qs}`,
+    json: true
+  };
+  return request(options).catch(() => {
+    logger.error('Error trying to consume album API');
+    throw errors.albumError(ALBUM_API_FAILED);
+  });
+};
+
+exports.getAlbums = () => {
+  const options = {
+    method: 'GET',
+    uri: `${urlAlbumApi}${albumsEndpoint}`,
     json: true
   };
   return request(options).catch(() => {

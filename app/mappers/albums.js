@@ -3,3 +3,5 @@ exports.albumMapper = album => ({
   title: album.title,
   artist: album.userId
 });
+
+exports.albumsMapper = albums => albums.map(exports.albumMapper);
