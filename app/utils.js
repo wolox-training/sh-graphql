@@ -15,3 +15,8 @@ exports.passwordEncryption = user =>
       logger.errors(`Error trying to encrypt the password. Details: ${JSON.stringify(error)}`);
       errors.encryptionError('Error trying to encrypt the password');
     });
+
+exports.errorBuilder = (message, field, errorList) => {
+  logger.error(message);
+  errorList.push({ field, message });
+};

@@ -1,41 +1,35 @@
 const logger = require('../../logger');
 const { user: User } = require('../../models');
-const { EMAIL_REGEX, PASSWORD_REGEX } = require('../../constants');
+const {
+  EMAIL_REGEX,
+  EMAIL_ERROR,
+  EMAIL_DB_ERROR,
+  EMAIL_FIELD,
+  PASSWORD_REGEX,
+  PASSWORD_ERROR,
+  PASSWORD_FIELD
+} = require('../../constants');
 const errors = require('../../errors');
+const { errorBuilder } = require('../../utils');
 
 const user = (resolve, root, args) => {
   logger.info("Middleware for 'user' mutation");
-  const errorList = [];
+  const errorList = [{ statusCode: 400 }];
   const { email, password } = args.userFields;
   if (!EMAIL_REGEX.test(email)) {
-    logger.error('The email used does not belong to Wolox dominoes');
-    errorList.push({
-      field: 'email',
-      message: 'The email does not belong to the Wolox domains',
-      statusCode: 400
-    });
+    errorBuilder(EMAIL_ERROR, EMAIL_FIELD, errorList);
   }
   if (!PASSWORD_REGEX.test(password)) {
-    logger.error('The password must be alphanumeric and should be at least 8 chars long');
-    errorList.push({
-      field: 'password',
-      message: 'The password must be alphanumeric and should be at least 8 chars long',
-      statusCode: 400
-    });
+    errorBuilder(PASSWORD_ERROR, PASSWORD_FIELD, errorList);
   }
   return User.getOne({ conditions: { email } })
     .then(foundUser => {
       if (foundUser) {
-        logger.error('The email of the user you want to register is already in use');
-        errorList.push({
-          field: 'password',
-          message: 'The email is already registered',
-          statusCode: 400
-        });
+        errorBuilder(EMAIL_DB_ERROR, EMAIL_FIELD, errorList);
       }
     })
     .then(() => {
-      if (errorList.length > 0) {
+      if (errorList.length > 1) {
         throw errors.invalidInputs('invalid user inputs', errorList);
       }
       return resolve(root, args);
