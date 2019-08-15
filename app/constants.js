@@ -1,2 +1,11 @@
 exports.ALBUM_API_FAILED = 'Error consuming album API';
 exports.LOG_ALBUM_API_ERROR = 'Error trying to consume album API. Details: ';
+exports.DATABASE_ERROR = 'Error processing request in database';
+exports.LOG_DATABASE_ERROR = 'Error trying to process the request in the database. Details: ';
+exports.EMAIL_REGEX = /^[a-z0-9._-]+@wolox.(co|cl|com|ar|com.ar)+$/i;
+exports.PASSWORD_REGEX = /^([a-z0-9]{8,})+$/i;
+exports.PASSWORD_ERROR = 'The password must be alphanumeric and should be at least 8 chars long';
+exports.PASSWORD_FIELD = 'password';
+exports.EMAIL_ERROR = 'The email used does not belong to Wolox dominoes';
+exports.EMAIL_DB_ERROR = 'The email of the user you want to register is already in use';
+exports.EMAIL_FIELD = 'email';

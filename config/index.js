@@ -44,7 +44,8 @@ const config = {
     },
     session: {
       header_name: 'authorization',
-      secret: process.env.NODE_API_SESSION_SECRET
+      secret: process.env.NODE_API_SESSION_SECRET,
+      salt_rounds: parseInt(process.env.SALT_ROUNDS)
     },
     resources: {
       urlAlbumApi: process.env.URL_ALBUM_API,
