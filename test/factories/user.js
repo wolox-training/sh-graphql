@@ -6,8 +6,7 @@ const { factory } = require('factory-girl'),
 factory.define('user', User, {
   firstName: () => faker.name.firstName(),
   lastName: () => faker.name.lastName(),
-  email: () => faker.internet.email(),
-  username: () => faker.internet.email(),
+  email: () => faker.internet.email(this.firstName, this.lastName, 'wolox.com'),
   password: () => faker.internet.password()
 });
 

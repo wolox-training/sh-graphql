@@ -5,6 +5,7 @@ module.exports = gql`
   type Mutation
   type Subscription
   type User {
+    id: ID!
     firstName: String!
     lastName: String!
     email: String!
