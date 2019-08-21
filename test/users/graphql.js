@@ -22,11 +22,10 @@ const getUsers = () => gql`
 const createUser = userInput => ({
   mutation: gql`
     mutation createUser($userInput: UserInput!) {
-      createUser(user: $userInput) {
+      user(userFields: $userInput) {
         firstName
         lastName
         id
-        username
         password
         email
       }

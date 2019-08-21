@@ -18,7 +18,7 @@ describe('users', () => {
       ));
 
     it('should get all users', () =>
-      userFactory.createMany(5).then(() =>
+      userFactory.createMany().then(() =>
         query(getUsers()).then(res => {
           expect(res.data.users).toHaveLength(5);
         })
