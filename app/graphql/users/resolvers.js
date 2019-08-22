@@ -12,6 +12,7 @@ exports.userRegister = (parent, { userFields: user }) => {
     })
     .catch(error => {
       logger.error(`Error trying to create user. Details: ${JSON.stringify(error)}`);
+      throw error;
     });
 };
 
@@ -19,6 +20,7 @@ exports.getUser = (parent, args) => {
   logger.info(`getUser method start, user to find: ${JSON.stringify(args)}`);
   return userService.getUser(args).catch(error => {
     logger.error(`Error trying to find the user. Details: ${JSON.stringify(error)}`);
+    throw error;
   });
 };
 
@@ -26,6 +28,7 @@ exports.getUsers = () => {
   logger.info('getUsers method start, fetching user list');
   return userService.getUsers().catch(error => {
     logger.error(`Error trying to fetching users. Details: ${JSON.stringify(error)}`);
+    throw error;
   });
 };
 
