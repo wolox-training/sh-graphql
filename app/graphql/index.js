@@ -25,6 +25,9 @@ const schema = makeExecutableSchema({
     },
     Album: {
       ...albums.photosResolver
+    },
+    User: {
+      ...users.fullNameResolver
     }
   }
 });

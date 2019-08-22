@@ -7,9 +7,8 @@ describe('users', () => {
     it('should create an user successfuly', () =>
       userFactory.attributes().then(user =>
         mutate(createUser(user)).then(res => {
-          const { firstName, lastName, email, password, id } = res.data.user;
-          expect(firstName).toEqual(user.firstName);
-          expect(lastName).toEqual(user.lastName);
+          const { fullName, email, password, id } = res.data.user;
+          expect(fullName).toEqual(`${user.firstName} ${user.lastName}`);
           expect(email).toEqual(user.email);
           expect(password).toBeDefined();
           expect(id).toBeDefined();

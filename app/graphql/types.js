@@ -6,8 +6,9 @@ module.exports = gql`
   type Subscription
   type User {
     id: ID!
-    firstName: String!
-    lastName: String!
+    fullName: String!
+    firstName: String @deprecated(reason: "Use 'fullName instead'")
+    lastName: String @deprecated(reason: "Use 'fullName instead'")
     email: String!
     password: String!
   }
