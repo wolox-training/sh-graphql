@@ -22,7 +22,7 @@ const user = (resolve, root, args) => {
   if (!PASSWORD_REGEX.test(password)) {
     errorBuilder(PASSWORD_ERROR, PASSWORD_FIELD, errorList);
   }
-  return User.getOne({ conditions: { email } })
+  return User.getOne({ email })
     .then(foundUser => {
       if (foundUser) {
         errorBuilder(EMAIL_DB_ERROR, EMAIL_FIELD, errorList);

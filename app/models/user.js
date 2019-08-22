@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
 
   User.createModel = user => User.create(user);
 
-  User.getOne = ({ conditions, attributes }) => User.findOne({ where: conditions, attributes });
+  User.getOne = user => User.findOne({ where: user });
 
   User.getAll = () => User.findAll();
 
