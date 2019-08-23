@@ -1,4 +1,4 @@
-const { expires_in } = require('../../../config').common.session;
+const { expires_in } = require('../../config').common.session;
 
 exports.tokenSerializer = token => ({
   accessToken: token,

@@ -2,7 +2,7 @@ const logger = require('../../logger');
 const userService = require('../../services/users');
 const { passwordEncryption, comparePasswords, generateToken } = require('../../utils');
 const { userLoggedIn } = require('../events');
-const { tokenSerializer } = require('../serializers/authentication');
+const { tokenSerializer } = require('../../serializers/authentication');
 const errors = require('../../errors');
 
 exports.userRegister = (parent, { userFields: user }) => {
