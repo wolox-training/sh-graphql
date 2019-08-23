@@ -1,6 +1,9 @@
 const logger = require('../../logger');
 const userService = require('../../services/users');
-const { passwordEncryption } = require('../../utils');
+const { passwordEncryption, comparePasswords, generateToken } = require('../../utils');
+const { userLoggedIn } = require('../events');
+const { tokenSerializer } = require('../serializers/authentication');
+const errors = require('../../errors');
 
 exports.userRegister = (parent, { userFields: user }) => {
   logger.info(`userRegister method start, user to register: ${user.firstName} ${user.lastName}`);
@@ -30,6 +33,32 @@ exports.getUsers = () => {
     logger.error(`Error trying to fetching users. Details: ${JSON.stringify(error)}`);
     throw error;
   });
+};
+
+exports.userSignIn = (parent, { credentials: user }) => {
+  logger.info('userSignIn method start, user authentication');
+  const { email, password } = user;
+  return userService
+    .getUser({ email })
+    .then(foundUser => {
+      if (foundUser) {
+        return comparePasswords({ password, hash: foundUser.password }).then(registered =>
+          registered ? generateToken(foundUser) : false
+        );
+      }
+      return false;
+    })
+    .then(token => {
+      if (token) {
+        userLoggedIn.publish(email);
+        return tokenSerializer(token);
+      }
+      throw errors.sessionError('Your email or password is incorrect');
+    })
+    .catch(error => {
+      logger.error(`Error trying to login. Details: ${JSON.stringify(error)}`);
+      throw error;
+    });
 };
 
 exports.fullNameResolver = {

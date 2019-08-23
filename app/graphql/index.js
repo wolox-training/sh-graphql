@@ -32,8 +32,13 @@ const schema = makeExecutableSchema({
   }
 });
 
-module.exports = applyMiddleware(schema, {
+const schemeAppliedMiddlewares = applyMiddleware(schema, {
   Mutation: {
     ...users.middlewares.mutations
   }
 });
+
+module.exports = {
+  schema: schemeAppliedMiddlewares,
+  context: ({ req }) => ({ authorization: req.headers.authorization || '' })
+};
