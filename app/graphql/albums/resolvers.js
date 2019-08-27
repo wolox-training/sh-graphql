@@ -1,11 +1,11 @@
 const albumService = require('../../services/albums');
-const { albumMapper } = require('../../mappers/albums');
+const { albumSerializer } = require('../../serializers/albums');
 const { formatAlbum } = require('../../helpers/albums');
 const logger = require('../../logger');
 
 exports.getAlbum = (parent, { id }) => {
   logger.info(`Retrieving album with id: ${id}`);
-  return albumService.getAlbum(id).then(albumMapper);
+  return albumService.getAlbum(id).then(albumSerializer);
 };
 
 exports.getPhotos = (parent, args) => {

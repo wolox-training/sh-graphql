@@ -1,4 +1,4 @@
-const { ApolloError, UserInputError } = require('apollo-server');
+const { ApolloError, UserInputError, AuthenticationError } = require('apollo-server');
 
 const createError = (message, statusCode) => new ApolloError(message, statusCode);
 
@@ -12,3 +12,4 @@ exports.albumError = message => createError(message, ALBUM_API_FAILED);
 exports.invalidInputs = (message, invalidInputs) => new UserInputError(message, { invalidInputs });
 exports.encryptionError = message => createError(message, DEFAULT_ERROR);
 exports.databaseError = message => createError(message, DEFAULT_ERROR);
+exports.sessionError = message => new AuthenticationError(message);

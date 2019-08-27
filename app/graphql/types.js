@@ -15,7 +15,7 @@ module.exports = gql`
   type AccessToken {
     accessToken: String!
     refreshToken: String!
-    expiresIn: Int!
+    expiresIn: String!
   }
   type Album {
     id: ID!
