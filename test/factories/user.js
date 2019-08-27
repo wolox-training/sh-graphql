@@ -1,7 +1,7 @@
 const { factory } = require('factory-girl'),
   faker = require('faker'),
   models = require('../../app/models'),
-  { user: User } = models;
+  { User } = models;
 
 factory.define('user', User, {
   firstName: () => faker.name.firstName(),

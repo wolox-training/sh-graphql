@@ -13,3 +13,4 @@ exports.invalidInputs = (message, invalidInputs) => new UserInputError(message, 
 exports.encryptionError = message => createError(message, DEFAULT_ERROR);
 exports.databaseError = message => createError(message, DEFAULT_ERROR);
 exports.sessionError = message => new AuthenticationError(message);
+exports.buyAlbumError = message => createError(message, BAD_REQUEST);

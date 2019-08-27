@@ -1,5 +1,5 @@
 const logger = require('../../logger');
-const { user: User } = require('../../models');
+const { User } = require('../../models');
 const {
   EMAIL_REGEX,
   EMAIL_ERROR,

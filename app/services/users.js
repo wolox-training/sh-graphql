@@ -1,4 +1,4 @@
-const { user: User } = require('../models');
+const { User } = require('../models');
 const { DATABASE_ERROR, LOG_DATABASE_ERROR } = require('../constants');
 const logger = require('../logger');
 const errors = require('../errors');

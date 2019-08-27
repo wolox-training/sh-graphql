@@ -25,3 +25,5 @@ exports.errorBuilder = (message, field, errorList) => {
 exports.comparePasswords = ({ password, hash }) => bcrypt.compare(password, hash);
 
 exports.generateToken = ({ id, email }) => jwt.signAsync({ id, email }, secret, { expires_in });
+
+exports.validateToken = token => jwt.verifyAsync(token, secret);
