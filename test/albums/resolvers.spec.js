@@ -1,7 +1,9 @@
+const nock = require('nock');
+
 const { mutations } = require('../../app/graphql/albums/mutations');
 const userMutation = require('../../app/graphql/users/mutations');
 const userFactory = require('../factories/user');
-const { albumMock } = require('../mocks/albums');
+const { albumMock, albumMockApiError } = require('../mocks/albums');
 const { albumResponse } = require('../factories/albums');
 const { Album } = require('../../app/models');
 
@@ -11,6 +13,7 @@ describe('albums', () => {
   beforeEach(() => {
     albumMock(id);
   });
+  afterEach(() => nock.cleanAll());
   describe('resolvers', () => {
     describe('buyAlbums', () => {
       it('should buy an album successfully', () =>
@@ -49,6 +52,17 @@ describe('albums', () => {
               'Unable to connect to your database server: Connection refused'
             );
             albumCreateMock.mockRestore();
+          });
+      });
+
+      it('should fail to buy an album, because the album does not exist in the external API', () => {
+        albumMockApiError(101);
+        return userFactory
+          .build()
+          .then(user => userMutation.mutations.user({}, { userFields: user.dataValues }))
+          .then(() => mutations.buyAlbum({}, { albumId: 101, user: { id } }))
+          .catch(error => {
+            expect(error).toHaveProperty('message', 'Error consuming album API');
           });
       });
     });
