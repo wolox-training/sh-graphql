@@ -18,7 +18,8 @@ const schema = makeExecutableSchema({
       ...healthCheck.queries
     },
     Mutation: {
-      ...users.mutations
+      ...users.mutations,
+      ...albums.mutations
     },
     Subscription: {
       ...users.subscriptions
@@ -34,7 +35,8 @@ const schema = makeExecutableSchema({
 
 const schemeAppliedMiddlewares = applyMiddleware(schema, {
   Mutation: {
-    ...users.middlewares.mutations
+    ...users.middlewares.mutations,
+    ...albums.middlewares.mutations
   }
 });
 

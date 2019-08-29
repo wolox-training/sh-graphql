@@ -14,6 +14,7 @@ const { albumResponse } = require('../factories/albums');
 const id = 1;
 
 describe('albums', () => {
+  afterEach(() => nock.cleanAll());
   describe('queries', () => {
     it('should get album properly', () => {
       albumMock(id);
@@ -29,7 +30,6 @@ describe('albums', () => {
     });
 
     it('should get album list properly', () => {
-      nock.cleanAll();
       albumListMock();
       albumPhotosMockFiveTimes();
       return query(getAlbums({})).then(response => {
@@ -40,7 +40,6 @@ describe('albums', () => {
     });
 
     it('should get the list of paginated albums properly', () => {
-      nock.cleanAll();
       albumListMock();
       albumPhotosMockFiveTimes();
       return query(getAlbums({ offset: 0, limit: 2, orderBy: 'id' })).then(response => {
@@ -52,7 +51,6 @@ describe('albums', () => {
     });
 
     it('should fail to get an album by API error', () => {
-      nock.cleanAll();
       albumMockApiError(id);
       return query(getAlbum(id)).then(response => {
         expect(response).toHaveProperty('errors');

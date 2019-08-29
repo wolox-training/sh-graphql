@@ -1,7 +1,9 @@
 const request = require('request-promise');
 
+const { Album } = require('../models');
+
 const { urlAlbumApi, albumsEndpoint, photosEndpoint } = require('../../config').common.resources;
-const { ALBUM_API_FAILED, LOG_ALBUM_API_ERROR } = require('../constants');
+const { ALBUM_API_FAILED, LOG_ALBUM_API_ERROR, LOG_DATABASE_ERROR, DATABASE_ERROR } = require('../constants');
 const errors = require('../errors');
 const logger = require('../logger');
 
@@ -41,3 +43,17 @@ exports.getPhotosBy = qs => {
     throw errors.albumError(ALBUM_API_FAILED);
   });
 };
+
+exports.findAlbumBy = ({ conditions }) =>
+  Album.findOne({
+    where: conditions
+  }).catch(() => {
+    logger.error('Error trying to find the album');
+    throw errors.databaseError(DATABASE_ERROR);
+  });
+
+exports.albumRegister = album =>
+  Album.create(album).catch(error => {
+    logger.error(`${LOG_DATABASE_ERROR}${JSON.stringify(error)}`);
+    throw errors.databaseError(`${DATABASE_ERROR}`);
+  });

@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'user',
+    'User',
     {
       firstName: {
         type: DataTypes.STRING,
@@ -25,6 +25,8 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true
     }
   );
+
+  User.associate = models => User.hasMany(models.Album);
 
   User.createModel = user => User.create(user);
 

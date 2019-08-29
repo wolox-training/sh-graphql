@@ -2,21 +2,44 @@ const albumService = require('../../services/albums');
 const { albumSerializer } = require('../../serializers/albums');
 const { formatAlbum } = require('../../helpers/albums');
 const logger = require('../../logger');
+const errors = require('../../errors');
 
 exports.getAlbum = (parent, { id }) => {
-  logger.info(`Retrieving album with id: ${id}`);
+  logger.info(`getAlbum method start, retrieving album with id: ${id}`);
   return albumService.getAlbum(id).then(albumSerializer);
 };
 
 exports.getPhotos = (parent, args) => {
   const { id } = parent ? parent : args;
-  logger.info(`Retrieving photos from the album with AlbumId: ${id}`);
+  logger.info(`getPhotos method start, retrieving photos from the album with AlbumId: ${id}`);
   return albumService.getPhotosBy({ albumId: id });
 };
 
 exports.getAlbums = (parent, { offset, limit, orderBy, filter }) => {
-  logger.info(`Retrieving albums list with offset: ${offset} limit: ${limit} orderBy: ${orderBy}`);
+  logger.info(
+    `getAlbums method start, retrieving albums list with offset: ${offset} limit: ${limit} orderBy: ${orderBy}`
+  );
   return albumService.getAlbums().then(albums => formatAlbum({ albums, offset, limit, orderBy, filter }));
+};
+
+exports.buyAlbum = (parent, { albumId, user }) => {
+  logger.info(`buyAlbum method start, buying the album with id: ${albumId}`);
+  return albumService
+    .findAlbumBy({ conditions: { id: albumId } })
+    .then(purchasedAlbum => {
+      if (purchasedAlbum) {
+        logger.error('The album you are trying to buy has already been purchased before');
+        throw errors.buyAlbumError('Duplicate purchase of an album is not allowed');
+      }
+      return exports.getAlbum(parent, { id: albumId }).then(album => {
+        album.userId = user.id;
+        return albumService.albumRegister(album);
+      });
+    })
+    .catch(error => {
+      logger.error(`Error trying to buy album. Details: ${JSON.stringify(error)}`);
+      throw error;
+    });
 };
 
 exports.photosResolver = {
