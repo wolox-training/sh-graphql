@@ -10,6 +10,7 @@ const {
   albumMockApiError
 } = require('../mocks/albums');
 const { albumResponse } = require('../factories/albums');
+const albumService = require('../../app/services/albums');
 
 const id = 1;
 
@@ -54,6 +55,7 @@ describe('albums', () => {
     it('should fail to get an album by API error', () => {
       nock.cleanAll();
       albumMockApiError(id);
+      albumService.albumByIdLoader.clearAll();
       return query(getAlbum(id)).then(response => {
         expect(response).toHaveProperty('errors');
         expect(response.errors[0]).toHaveProperty('message', 'Error consuming album API');

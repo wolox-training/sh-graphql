@@ -17,17 +17,18 @@ module.exports = gql`
     refreshToken: String!
     expiresIn: String!
   }
-  type Album {
+  type Album @cacheControl(maxAge: 600) {
     id: ID!
     title: String!
     artist: String!
     photos: [Photo]!
   }
-  type Photo {
+  type Photo @cacheControl(maxAge: 600) {
     albumId: ID!
     id: ID!
     title: String!
     url: String!
     thumbnailUrl: String!
   }
+  directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
 `;
