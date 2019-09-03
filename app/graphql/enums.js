@@ -6,4 +6,9 @@ module.exports = gql`
     title
     artist
   }
+
+  enum CacheControlScope {
+    PUBLIC
+    PRIVATE
+  }
 `;
