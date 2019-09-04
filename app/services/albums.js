@@ -1,14 +1,12 @@
 const request = require('request-promise');
-const DataLoader = require('dataloader');
 
 const { Album } = require('../models');
-
 const { urlAlbumApi, albumsEndpoint, photosEndpoint } = require('../../config').common.resources;
 const { ALBUM_API_FAILED, LOG_ALBUM_API_ERROR, LOG_DATABASE_ERROR, DATABASE_ERROR } = require('../constants');
 const errors = require('../errors');
 const logger = require('../logger');
 
-const getAlbum = qs => {
+exports.getAlbum = qs => {
   const options = {
     method: 'GET',
     uri: `${urlAlbumApi}${albumsEndpoint}${qs}`,
@@ -20,7 +18,7 @@ const getAlbum = qs => {
   });
 };
 
-const getAlbums = () => {
+exports.getAlbums = () => {
   const options = {
     method: 'GET',
     uri: `${urlAlbumApi}${albumsEndpoint}`,
@@ -32,7 +30,7 @@ const getAlbums = () => {
   });
 };
 
-const getPhotos = id => {
+exports.getPhotos = id => {
   const options = {
     method: 'GET',
     uri: `${urlAlbumApi}${photosEndpoint}?albumId=${id}`,
@@ -57,7 +55,3 @@ exports.albumRegister = album =>
     logger.error(`${LOG_DATABASE_ERROR}${JSON.stringify(error)}`);
     throw errors.databaseError(`${DATABASE_ERROR}`);
   });
-
-exports.albumByIdLoader = new DataLoader(keys => Promise.all(keys.map(getAlbum)));
-exports.albumsLoader = new DataLoader(keys => Promise.all(keys.map(getAlbums)));
-exports.photosLoader = new DataLoader(keys => Promise.all(keys.map(getPhotos)));

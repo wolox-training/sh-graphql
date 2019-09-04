@@ -6,22 +6,20 @@ const errors = require('../../errors');
 
 exports.getAlbum = (parent, { id }) => {
   logger.info(`getAlbum method start, retrieving album with id: ${id}`);
-  return albumService.albumByIdLoader.load(id).then(albumSerializer);
+  return albumService.getAlbum(id).then(albumSerializer);
 };
 
 exports.getPhotos = (parent, args) => {
   const { id } = parent ? parent : args;
   logger.info(`getPhotos method start, retrieving photos from the album with AlbumId: ${id}`);
-  return albumService.photosLoader.load(id);
+  return albumService.getPhotos(id);
 };
 
 exports.getAlbums = (parent, { offset, limit, orderBy, filter }) => {
   logger.info(
     `getAlbums method start, retrieving albums list with offset: ${offset} limit: ${limit} orderBy: ${orderBy}`
   );
-  return albumService.albumsLoader
-    .load(0)
-    .then(albums => formatAlbum({ albums, offset, limit, orderBy, filter }));
+  return albumService.getAlbums().then(albums => formatAlbum({ albums, offset, limit, orderBy, filter }));
 };
 
 exports.buyAlbum = (parent, { albumId, user }) => {
