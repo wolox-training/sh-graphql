@@ -52,6 +52,15 @@ const config = {
       urlAlbumApi: process.env.URL_ALBUM_API,
       albumsEndpoint: process.env.ALBUMS_ENDPOINT,
       photosEndpoint: process.env.PHOTOS_ENDPOINT
+    },
+    crypto: {
+      algorithm: process.env.ALGORITHM,
+      digest: process.env.DIGEST
+    },
+    redisCaching: {
+      host: process.env.REDIS_HOST,
+      port: process.env.REDIS_PORT,
+      ttl: process.env.TTL
     }
   }
 };

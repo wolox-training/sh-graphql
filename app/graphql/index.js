@@ -37,6 +37,12 @@ const schemeAppliedMiddlewares = applyMiddleware(schema, {
   Mutation: {
     ...users.middlewares.mutations,
     ...albums.middlewares.mutations
+  },
+  Query: {
+    ...albums.middlewares.queries
+  },
+  Album: {
+    ...albums.middlewares.photosResolver
   }
 });
 
